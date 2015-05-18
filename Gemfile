@@ -1,20 +1,12 @@
 source 'https://rubygems.org'
 
-gem 'sinatra'
-
-group :development, :test do
-  gem 'capybara'
-  gem 'cucumber'
-  gem 'cucumber-sinatra'
-  gem 'data_mapper'
-  gem 'dm-postgres-adapter'
-  gem 'launchy'
-  gem 'rspec'
-  gem 'shotgun'
-
-end
+gem 'data_mapper'
+gem 'dm-postgres-adapter'
+gem 'database_cleaner'
 
 group :test do
+  gem 'sinatra'
+  gem 'capybara'
   gem 'rspec'
-  gem 'database_cleaner'
+  gem 'bcrypt-ruby'
 end

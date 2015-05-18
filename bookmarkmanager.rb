@@ -2,6 +2,7 @@ require 'sinatra/base'
 require 'data_mapper'
 require './lib/link.rb'
 require './lib/tag.rb'
+require './lib/user.rb'
 
 env = ENV['RACK_ENV'] || 'development'
 
@@ -13,6 +14,9 @@ DataMapper.auto_upgrade!
 
 
 class BookmarkManager < Sinatra::Base
+  set :views, proc { File.join(root,'views') }
+  enable :sessions
+  set :session_secret, 'super secret'
 
 
   get '/' do
@@ -35,6 +39,23 @@ class BookmarkManager < Sinatra::Base
     @links = tag ? tag.links : []
     erb :index
   end
+
+  get '/user/new' do
+    erb :'user/new'
+  end
+
+  post '/user' do
+    user = User.create(email: params[:email], password: params[:password])
+    session[:user_id] = user.id
+    redirect to('/')
+  end
+
+  helpers do
+    def current_user
+      @current_user ||= User.get(session[:user_id]) if session[:user_id]
+    end
+  end
+
   # start the server if ruby file executed directly
   run! if app_file == $0
 end
