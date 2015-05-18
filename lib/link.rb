@@ -6,4 +6,6 @@ class Link
   property :title,  String
   property :url,    String
 
+  has n, :tag, through: Resource
+
 end
